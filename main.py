@@ -58,7 +58,7 @@ def main(args):
         pass
 
     elif args.method == "linear_regression":
-        ### WRITE YOUR CODE HERE
+        method_obj = LinearRegression()
         pass
 
     else:
