@@ -41,7 +41,14 @@ def main(args):
         ### WRITE YOUR CODE HERE
         pass
 
-    ### WRITE YOUR CODE HERE to do any other data processing
+    # Normalize features 
+    means = np.mean(train_features, axis=0, keepdims=True)
+    stds = np.std(train_features, axis=0, keepdims=True)
+    train_features = normalize_fn(train_features, means=means, stds=stds)
+    test_features = normalize_fn(test_features, means=means, stds=stds)
+    # Add bias term 
+    train_features = append_bias_term(train_features)
+    test_features = append_bias_term(test_features)
 
     ## 3. Initialize the method you want to use.
 
@@ -54,12 +61,10 @@ def main(args):
         pass
 
     elif args.method == "logistic_regression":
-        ### WRITE YOUR CODE HERE
-        pass
+        method_obj = LogisticRegression(lr=args.lr, break_threshold=1e-6, max_iters=args.max_iters)
 
     elif args.method == "linear_regression":
         method_obj = LinearRegression()
-        pass
 
     else:
         raise ValueError(f"Unknown method: {args.method}")
