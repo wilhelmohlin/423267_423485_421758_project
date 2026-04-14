@@ -29,11 +29,11 @@ class KNN(object):
             pred_labels (np.array): labels of shape (N,)
         """
 
-        ##
-        ###
-        #### YOUR CODE HERE!
-        ###
-        ##
+        self.training_data = training_data
+        self.training_labels = training_labels
+
+        pred_labels = self.predict(training_data)
+
         return pred_labels
 
     def predict(self, test_data):
@@ -45,9 +45,22 @@ class KNN(object):
         Returns:
             test_labels (np.array): labels of shape (N,)
         """
-        ##
-        ###
-        #### YOUR CODE HERE!
-        ###
-        ##
+        
+        test_labels = np.zeros(test_data.shape[0], dtype=int)
+
+        if self.task_kind == "classification":
+            for i in range(test_data.shape[0]):
+                dists = np.linalg.norm(self.training_data - test_data[i], axis=1)
+                knn_indices = np.argsort(dists)[:self.k]
+                knn_labels = self.training_labels[knn_indices].astype(int)
+                test_labels[i] = np.bincount(knn_labels).argmax()
+        elif self.task_kind == "regression":
+            for i in range(test_data.shape[0]):
+                dists = np.linalg.norm(self.training_data - test_data[i], axis=1)
+                knn_indices = np.argsort(dists)[:self.k]
+                knn_labels = self.training_labels[knn_indices].astype(float)
+                test_labels[i] = np.mean(knn_labels)
+        else:
+            raise ValueError(f"Unknown task kind: {self.task_kind}")
+            
         return test_labels

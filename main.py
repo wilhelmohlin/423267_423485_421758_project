@@ -57,8 +57,7 @@ def main(args):
         method_obj = DummyClassifier(arg1=1, arg2=2)
 
     elif args.method == "knn":
-        ### WRITE YOUR CODE HERE
-        pass
+        method_obj = KNN(k=args.K, task_kind=args.task)
 
     elif args.method == "logistic_regression":
         method_obj = LogisticRegression(lr=args.lr, break_threshold=1e-6, max_iters=args.max_iters)
